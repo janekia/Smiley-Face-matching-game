@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Game</title>
+    <style>
+	* {
+  margin: 0 auto;
+  padding: 0;
+}
+body{background-color:#53B232;}
+h2, p {
+  position: relative;
+  padding-left:450px;
+  color:white;
+}
+
+div {
+  width: 500px;
+  height: 500px;
+  position: absolute;
+}
+
+#rightside {
+  border-left: 1px solid black;
+  left: 500px;
+}
+
+img {
+  position: absolute;
+}
+</style>
+</head>
+<body>
+  <h2>Matching Game</h2>
+  <p>Click on the extra smiling face on the left</p>
+​
+  <div id="leftside"></div>
+  <div id="rightside"></div>
+    
+</body>
+<script>
+var numberOfFaces = 5;
+
+function generateFaces() {
+
+  var leftSide = document.getElementById("leftside");
+  var rightSide = document.getElementById("rightside");
+  var face = "http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
+
+  for (var i = 0; i < numberOfFaces; i++) {
+    var position_x = Math.floor((Math.random() * 400) + 1);
+    var position_y = Math.floor((Math.random() * 400) + 1);
+    var img = document.createElement("img");
+    img.setAttribute("src", face);
+    img.style.top = position_y + "px";
+    img.style.left = position_x + "px";
+    leftSide.appendChild(img);
+  }
+
+  var leftSideImages = leftSide.cloneNode(true);
+  leftSideImages.removeChild(leftSideImages.lastChild);
+  rightSide.appendChild(leftSideImages);
+
+  var theBody =
+    document.getElementsByTagName("body")[0];
+
+  leftSide.lastChild.onclick =
+    function nextLevel(event) {
+      event.stopPropagation();
+      numberOfFaces += 5;
+      while (leftSide.firstChild) {
+        leftSide.removeChild(leftSide.firstChild);
+      }
+      while (rightSide.firstChild) {
+        rightSide.removeChild(rightSide.firstChild);
+      }
+      generateFaces();
+    };
+
+  theBody.onclick = function gameOver() {
+    alert("Game Over");
+    theBody.onclick = null;
+    leftSide.lastChild.onclick - null;
+    while (leftSide.firstChild) {
+      leftSide.removeChild(leftSide.firstChild);
+    }
+    while (rightSide.firstChild) {
+      rightSide.removeChild(rightSide.firstChild);
+    }
+    numberOfFaces = 5;
+    generateFaces();
+  }
+
+}
+
+generateFaces();
+
+</script>
+</html>
